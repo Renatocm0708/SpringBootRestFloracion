@@ -1,8 +1,6 @@
 package com.aplication.rest.controller;
 
-import com.aplication.rest.controller.dto.ErrorResponse;
-import com.aplication.rest.controller.dto.FloracionDTO;
-import com.aplication.rest.controller.dto.FloracionResponseDTO;
+import com.aplication.rest.controller.dto.*;
 import com.aplication.rest.entity.Floracion;
 import com.aplication.rest.services.IServiceFloracion;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,7 +149,8 @@ public class FloracionController {
                         FloracionDTO_SP.add(floracionDTO_SP);
                     }
 
-                    return ResponseEntity.ok(FloracionDTO_SP);
+                    ConsultaResponse consultaResponse =new ConsultaResponse("001", "Canal medio aplicación incorrecto", FloracionDTO_SP);
+                    return ResponseEntity.ok(consultaResponse);
                 } else {
                     return ResponseEntity.notFound().build();
                 }
@@ -162,5 +161,7 @@ public class FloracionController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
         }
     }
+
+    
 
 }

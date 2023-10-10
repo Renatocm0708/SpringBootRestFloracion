@@ -11,7 +11,6 @@ import lombok.*;
 public class FloracionResponseDTO {
     private Long id;
 
-
     private String option;
 
     private Integer idFloracion;
