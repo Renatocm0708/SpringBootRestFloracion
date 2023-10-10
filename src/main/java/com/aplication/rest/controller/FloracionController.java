@@ -1,6 +1,8 @@
 package com.aplication.rest.controller;
 
+import com.aplication.rest.controller.dto.ErrorResponse;
 import com.aplication.rest.controller.dto.FloracionDTO;
+import com.aplication.rest.controller.dto.FloracionResponseDTO;
 import com.aplication.rest.entity.Floracion;
 import com.aplication.rest.services.IServiceFloracion;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,30 +129,37 @@ public class FloracionController {
     }
 
     @PostMapping("/consulta")
-    public ResponseEntity<List<FloracionDTO>> consultaFloracionesPorOpcionYId(@RequestBody FloracionDTO floracionDTO) {
+    public ResponseEntity<?> consultaFloracionesPorOpcionYId(@RequestBody FloracionDTO floracionDTO) {
         try {
-            String option = floracionDTO.getOption();
-            Integer idFloracion = floracionDTO.getIdFloracion();
+            String medio = floracionDTO.getMedio();
+            String canal = floracionDTO.getCanal();
+            String aplicacion = floracionDTO.getAplicacion();
 
-            List<Floracion> floracionListSP = serviceFloracion.consultaFloracionesPorOpcionYId(option,idFloracion);
+            if ("1".equals(medio) && "01".equals(canal) && "001".equals(aplicacion)) {
+                String option = floracionDTO.getOption();
+                Integer idFloracion = floracionDTO.getIdFloracion();
 
-            if (!floracionListSP.isEmpty()) {
-                List<FloracionDTO> FloracionDTO_SP = new ArrayList<>();
-                for (Floracion floracion : floracionListSP) {
-                    FloracionDTO floracionDTO_SP = FloracionDTO.builder()
-                            .id(floracion.getId())
-                            .option(floracion.getOption())
-                            .idFloracion(floracion.getIdFloracion())
-                            .build();
-                    FloracionDTO_SP.add(floracionDTO_SP);
+                List<Floracion> floracionListSP = serviceFloracion.consultaFloracionesPorOpcionYId(option, idFloracion);
+
+                if (!floracionListSP.isEmpty()) {
+                    List<FloracionResponseDTO> FloracionDTO_SP = new ArrayList<>();
+                    for (Floracion floracion : floracionListSP) {
+                        FloracionResponseDTO floracionDTO_SP = new FloracionResponseDTO();
+                        floracionDTO_SP.setId(floracion.getId());
+                        floracionDTO_SP.setOption(floracion.getOption());
+                        floracionDTO_SP.setIdFloracion(floracion.getIdFloracion());
+                        FloracionDTO_SP.add(floracionDTO_SP);
+                    }
+
+                    return ResponseEntity.ok(FloracionDTO_SP);
+                } else {
+                    return ResponseEntity.notFound().build();
                 }
-                return ResponseEntity.ok(FloracionDTO_SP);
-
             } else {
-                return ResponseEntity.notFound().build();
-            }
+                ErrorResponse errorResponse = new ErrorResponse("001", "Canal medio aplicación incorrecto");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);            }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
         }
     }
 

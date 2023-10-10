@@ -18,4 +18,11 @@ public class FloracionDTO {
     private String option;
 
     private Integer idFloracion;
+
+    private String medio;
+    private String canal;
+    private String aplicacion;
 }
+
+
+
