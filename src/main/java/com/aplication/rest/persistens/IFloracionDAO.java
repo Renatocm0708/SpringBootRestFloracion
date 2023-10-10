@@ -7,7 +7,6 @@ import java.util.Optional;
 
 public interface IFloracionDAO {
 
-
     List<Floracion> getlistFloracion();
 
     List<Floracion> findByOpcionANDIdFloracion(String opcion, Integer idFloracion);

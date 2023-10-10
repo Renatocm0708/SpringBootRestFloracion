@@ -18,7 +18,7 @@ public class IFloracionDAOImpl implements IFloracionDAO {
 
     @Override
     public List<Floracion> getlistFloracion() {
-        return (List<Floracion>) floracionRepository.findAll();
+        return (List<Floracion>) floracionRepository.getlistFloracion();
     }
 
     @Override
