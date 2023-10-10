@@ -140,17 +140,8 @@ public class FloracionController {
                 List<Floracion> floracionListSP = serviceFloracion.consultaFloracionesPorOpcionYId(option, idFloracion);
 
                 if (!floracionListSP.isEmpty()) {
-                    List<FloracionResponseDTO> FloracionDTO_SP = new ArrayList<>();
-                    for (Floracion floracion : floracionListSP) {
-                        FloracionResponseDTO floracionDTO_SP = new FloracionResponseDTO();
-                        floracionDTO_SP.setId(floracion.getId());
-                        floracionDTO_SP.setOption(floracion.getOption());
-                        floracionDTO_SP.setIdFloracion(floracion.getIdFloracion());
-                        FloracionDTO_SP.add(floracionDTO_SP);
-                    }
-
-                    ConsultaResponse consultaResponse =new ConsultaResponse("001", "Canal medio aplicación incorrecto", FloracionDTO_SP);
-                    return ResponseEntity.ok(consultaResponse);
+                    List<FloracionResponseDTO> FloracionDTO_SP = FloracionConvertidor.convertToFloracionResponseDTO(floracionListSP, "001", "Canal medio aplicación incorrecto");
+                    return ResponseEntity.ok(FloracionDTO_SP);
                 } else {
                     return ResponseEntity.notFound().build();
                 }
@@ -162,6 +153,6 @@ public class FloracionController {
         }
     }
 
-    
+
 
 }

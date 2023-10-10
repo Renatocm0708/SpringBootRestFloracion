@@ -14,4 +14,8 @@ public class FloracionResponseDTO {
     private String option;
 
     private Integer idFloracion;
+
+    private String idError;
+
+    private String OMensaje;
 }
