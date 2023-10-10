@@ -15,6 +15,8 @@ public interface IFloracionDAO {
 
     void save(Floracion floracion);
 
+    List<Floracion> consultaFloracionesPorOpcionYId(String opcion, Integer idFloracion);
+
 
 
 }

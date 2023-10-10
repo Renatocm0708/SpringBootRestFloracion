@@ -15,4 +15,6 @@ public interface IServiceFloracion {
 
     List<Floracion> getlistFloracion();
 
+    List<Floracion> consultaFloracionesPorOpcionYId(String opcion, Integer idFloracion);
+
 }

@@ -37,5 +37,10 @@ public class IServiceFloracionImpl implements IServiceFloracion {
         return floracionDAO.getlistFloracion();
     }
 
+    @Override
+    public List<Floracion> consultaFloracionesPorOpcionYId(String opcion, Integer idFloracion) {
+        return floracionDAO.consultaFloracionesPorOpcionYId(opcion, idFloracion);
+    }
+
 
 }

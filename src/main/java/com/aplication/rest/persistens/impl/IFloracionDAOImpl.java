@@ -36,5 +36,10 @@ public class IFloracionDAOImpl implements IFloracionDAO {
         floracionRepository.save(floracion);
     }
 
+    @Override
+    public List<Floracion> consultaFloracionesPorOpcionYId(String opcion, Integer idFloracion) {
+        return floracionRepository.consultaFloracionesPorOpcionYId(opcion,idFloracion);
+    }
+
 
 }

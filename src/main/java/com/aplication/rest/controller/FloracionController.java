@@ -99,4 +99,30 @@ public class FloracionController {
     public ResponseEntity<?> getlistFloracion(){
         return ResponseEntity.ok(serviceFloracion.getlistFloracion());
     }
+
+
+    @GetMapping("/consulta/{opcion}/{idFloracion}")
+    public ResponseEntity<List<FloracionDTO>> consultaFloracionesPorOpcionYId(
+            @PathVariable String opcion,
+            @PathVariable Integer idFloracion
+    ){
+        List<Floracion> floracionListSP = serviceFloracion.consultaFloracionesPorOpcionYId(opcion, idFloracion);
+
+        if (!floracionListSP.isEmpty()){
+            List<FloracionDTO> FloracionDTO_SP = new ArrayList<>();
+            for (Floracion floracion : floracionListSP){
+                FloracionDTO floracionDTO_SP = FloracionDTO.builder()
+                        .id(floracion.getId())
+                        .option(floracion.getOption())
+                        .idFloracion(floracion.getIdFloracion())
+                        .build();
+                FloracionDTO_SP.add(floracionDTO_SP);
+            }
+            return ResponseEntity.ok(FloracionDTO_SP);
+
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
