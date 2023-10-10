@@ -4,6 +4,7 @@ import com.aplication.rest.controller.dto.FloracionDTO;
 import com.aplication.rest.entity.Floracion;
 import com.aplication.rest.services.IServiceFloracion;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 @RestController
@@ -125,4 +125,33 @@ public class FloracionController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/consulta")
+    public ResponseEntity<List<FloracionDTO>> consultaFloracionesPorOpcionYId(@RequestBody FloracionDTO floracionDTO) {
+        try {
+            String option = floracionDTO.getOption();
+            Integer idFloracion = floracionDTO.getIdFloracion();
+
+            List<Floracion> floracionListSP = serviceFloracion.consultaFloracionesPorOpcionYId(option,idFloracion);
+
+            if (!floracionListSP.isEmpty()) {
+                List<FloracionDTO> FloracionDTO_SP = new ArrayList<>();
+                for (Floracion floracion : floracionListSP) {
+                    FloracionDTO floracionDTO_SP = FloracionDTO.builder()
+                            .id(floracion.getId())
+                            .option(floracion.getOption())
+                            .idFloracion(floracion.getIdFloracion())
+                            .build();
+                    FloracionDTO_SP.add(floracionDTO_SP);
+                }
+                return ResponseEntity.ok(FloracionDTO_SP);
+
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }
